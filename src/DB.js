@@ -67,11 +67,6 @@ export const cityArr = [
     },
     {
         city1: 'Житомир',
-        city2: 'Донецк',
-        distance: 863
-    },
-    {
-        city1: 'Житомир',
         city2: 'Волгоград',
         distance: 1493
     },
