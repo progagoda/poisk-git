@@ -77,11 +77,6 @@ export const cityArr = [
     },
     {
         city1: 'Кишенев',
-        city2: 'Киев',
-        distance: 467
-    },
-    {
-        city1: 'Кишенев',
         city2: 'Донецк',
         distance: 812
     },
