@@ -29,6 +29,7 @@ export const graphjs = {
 }
 export var nodes = [];
 function dfs(graph, v, t) {
+	console.log(9)
 	// graph - смежный список
 	// v - посещенный узел (вершина)
 	// t - пункт назначения
@@ -48,14 +49,14 @@ function dfs(graph, v, t) {
 			// двигаемся по пути и проверяем, не достигли ли мы пункта назначения
 			reached = dfs(graph, neighbor, t)
 			// возвращаем true, если достигли
-			if (reached) { reached = true; console.log(nodes); return true }
+			if (reached) { reached = true;  return true }
 		}
 	}
 	// если от v до t добраться невозможно
 	return false
 }
 function bfs(adj, s, t) {
-	console.log('Я тут')
+	console.log(9)
 	// adj - смежный список
 	// s - начальная вершина
 	// t - пункт назначения
@@ -77,14 +78,14 @@ function bfs(adj, s, t) {
 				// помечаем вершину как посещенную
 				nodes.push(neighbor)
 				// если сосед является пунктом назначения, мы победили
-				if (neighbor === t) { console.log(nodes); return true }
+				if (neighbor === t) {  return true }
 			}
 		}
 	}
 	// если t не обнаружено, значит пункта назначения достичь невозможно
 	return false
 }
-function dls(graph, v, t, limit) {
+function dls(graph, v, t,limit) {
 	// graph - смежный список
 	// v - посещенный узел (вершина)
 	// t - пункт назначения
@@ -102,21 +103,77 @@ function dls(graph, v, t, limit) {
 		// если сосед не посещался
 		if (!nodes.includes(neighbor)) {
 			// двигаемся по пути и проверяем, не достигли ли мы пункта назначения
-			limit += 1;
-			console.log(limit);
+			if(limit===5) {neighbor=nodes[1]; limit=0;}
+			console.log(limit)
+			limit++;
+			reached = dls(graph, neighbor, t,limit)
 			// возвращаем true, если достигли
-			if (limit == 5) { reached = dfs(graph, v, t, limit = 0); }
-			reached = dfs(graph, neighbor, t, limit)
-			if (reached) { reached = true; console.log(nodes); return true }
+			if (reached) { reached = true;  return true }
 		}
 	}
 	// если от v до t добраться невозможно
 	return false
 }
+function idfs(graph, v, t,limit) {
+	limit++;
+	// graph - смежный список
+	// v - посещенный узел (вершина)
+	// t - пункт назначения
+     
+	// это общие случаи
+	// либо достигли пункта назначения, либо уже посещали узел
+	if (v === t) return true
+	if (nodes.includes(v)) return false
+
+	// помечаем узел как посещенный
+	nodes.push(v)
+	// исследуем всех соседей (ближайшие соседние вершины) v
+	let counter=2
+	let reached;
+	for (let neighbor of graph[v]) {
+		// если сосед не посещался
+		if (!nodes.includes(neighbor)) {
+			// двигаемся по пути и проверяем, не достигли ли мы пункта назначения
+			if(limit===counter) {counter+=1; limit=-1;console.log(limit); neighbor=nodes[limit]}
+			reached = dls(graph, neighbor, t,limit)
+			// возвращаем true, если достигли
+			if (reached) { reached = true;  return true }
+		}
+	}
+	// если от v до t добраться невозможно
+	return false
+}
+function bdfs(graph, v, t) {
+	console.log(9)
+	if (v === t) return true
+	if (nodes.includes(v)) return false
+	nodes.push(v)
+	for (let neighbor of graph[v]) {
+		// если сосед не посещался
+		if (!nodes.includes(neighbor)) {
+			console.log(nodes)
+			if (neighbor=="Самара") return "Казань"
+			return neighbor
+			
+		}
+	}
+}
+function bds(graph, v, t) {
+	let poisk1=v
+	let poisk2=t;
+	while(poisk1!==poisk2){
+		console.log(12)
+		poisk1 = bdfs(graph,poisk1,poisk2)
+		poisk2 = bdfs(graph,poisk2,poisk1)
+			
+		}
+	}
 
 export function choosePoisk(poisk, graph, start, finish) {
 	if (poisk === '1') { nodes = []; dfs(graph, start, finish) }
-	if (poisk === '2') { nodes = []; bfs(graph, start, finish) }
-	if (poisk === '3') { nodes = []; dls(graph, start, finish) }
-	else { console.log('что-то пошло не так') }
+	if (poisk === '2') { nodes = []; bfs(graphjs, start, finish) }
+	if (poisk === '3') {nodes = [];  dls(graphjs, start, finish,0) }
+	if (poisk === '4') {nodes = [];  idfs(graphjs, start, finish,0) }
+	if (poisk === '5') {nodes = [];  bds(graphjs, start, finish) }
+	if (poisk === '6'){console.log('HI')}
 }

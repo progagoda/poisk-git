@@ -196,7 +196,7 @@ export const cityArr = [
         distance: 461
     },
 ]
-export const cityArrGraph = {
+export const  cityArrGraph={
     nodes: [
         { id: 1, label: "Вильнюс", title: "" },
         { id: 2, label: "Брест", title: "" },
@@ -267,7 +267,7 @@ export const cityArrGraph = {
         { from: 29, to: 28 },
         { from: 21, to: 10 },
     ]
-}
+};
 export const options = {
     layout: {
         randomSeed: 23,
@@ -285,11 +285,11 @@ export const options = {
         },
         arrows: {
             from: {
-                enabled: false,
+                enabled: true,
                 scaleFactor: 0.7
             },
             to: {
-                enabled: false
+                enabled: true
             }
         }
     },
@@ -325,6 +325,7 @@ export const options = {
 
 export const events = {
     select: function (event) {
-        var { nodes, edges } = event;
+          var{nodes,edges}=event;
+          console.log(nodes);
     }
 };

@@ -1,21 +1,21 @@
 import { Container, Row, Col, Form, Tab, Nav, Button } from "react-bootstrap"
 import { Cities } from "./Cities"
-import { cityArr } from "../DB";
 import { useState } from "react";
-import { cityArrGraph, options, events } from "../DB";
+import { cityArrGraph, options, events,cityArr } from "../DB";
 import Graph from "react-graph-vis";
-import { choosePoisk } from "../functions/poisk";
-import { graphjs, nodes } from "../functions/poisk";
+import { graphjs, nodes, choosePoisk } from "../functions/poisk";
 import 'react-tree-graph/dist/style.css'
 export const Banner = () => {
     let start = 'Рига'
     let finish = 'Уфа'
     const [selected, setSelected] = useState('1');
     const [viewRes, setViewRes] = useState('false')
+
     function view() {
+        console.log(selected)
         choosePoisk(selected, graphjs, start, finish);
         setViewRes(!viewRes);
-
+        
     }
     const handleChange = (e) => {
         setSelected(e.target.value);
@@ -49,17 +49,18 @@ export const Banner = () => {
                                             <option value="1">В глубину</option>
                                             <option value="2">В ширину</option>
                                             <option value="3">С ограничением глубины</option>
-                                            <option value="4">С интерактивным углублением</option>
+                                            <option value="4">С итеративным углублением</option>
                                             <option value="5">Двунаправленный поиск</option>
                                         </Form.Select>
                                             <Button variant="primary" onClick={view}>Start</Button>
                                             {viewRes && <h3>Cложность метода - {nodes.length}</h3> && nodes.map(name => <h3 key={name}>---{name}---</h3>)}
                                         </Tab.Pane>
-                                        <Tab.Pane eventKey="second"> <Form.Select aria-label="Default select example" >
-                                            <option value="1">Жадный</option>
-                                            <option value="2">Минимизация</option>
+                                        <Tab.Pane eventKey="second"> <Form.Select aria-label="Default select example" value={selected} onChange={handleChange}>
+                                            <option value="6">Жадный</option>
+                                            <option value="7">Минимизация</option>
                                         </Form.Select>
-
+                                        <Button variant="primary" onClick={view}>Start</Button>
+                                            {viewRes &&  nodes.map(name => <h3 key={name}>---{name}---</h3>)}
                                         </Tab.Pane>
                                     </Tab.Content>
                                 </Tab.Container>
@@ -67,7 +68,7 @@ export const Banner = () => {
                         </Row>
                     </Col>
                     <Col xs={12} md={6} xl={5}>
-                        <Cities cities={cityArr} />
+                        <Cities  key ={cityArr}cities={cityArr} />
                     </Col>
                 </Row>
             </Container>
